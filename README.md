@@ -28,7 +28,7 @@ Run the following commands in the project main folder:
 
 1. Copy the images and labels from the server to your own data folder:
 
-```scp username@taito.csc.fi:/wrk/student083/diabetic_retinopathy/data/train_samples/*  data/train/```
+```scp username@taito.csc.fi:/wrk/student083/diabetic_retinopathy/data/train_samples/*  data/train/```  
 ```scp username@taito.csc.fi:/wrk/student083/diabetic_retinopathy/data/trainLabels.csv  data/```
 
 2. Create a list of the images contained: ``` ls data/train > train_list.txt```
