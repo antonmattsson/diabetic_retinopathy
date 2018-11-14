@@ -12,7 +12,7 @@ Johanna Vikkula
 
 #### Working on the server:
 
-Connect using ```ssh username@taito.csc.fi ```  
+Connect using ```ssh username@taito-gpu.csc.fi ```  
 
 Use the ```$WRKDIR``` folder. The git repository is located there.
 
