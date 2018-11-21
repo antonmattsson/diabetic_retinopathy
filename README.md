@@ -12,11 +12,18 @@ Johanna Vikkula
 
 #### Working on the server:
 
-Connect using ```ssh username@taito.csc.fi ```  
+Connect using ```ssh username@taito-gpu.csc.fi ```  
 
 Use the ```$WRKDIR``` folder. The git repository is located there.
 
-To activate Python 3, you need to run ```source ~/.bashrc_profile``` at the beginning of every session.
+If you run **heavy jobs**, define the filename in ```run.sh``` (now generator_test.py defined there) and run ```sbatch run.sh``` (this activates also Python 3 and tensorflow). Outputs are saved to ```output.txt``` file and errors to ```errors.t``` file. To investigate output/error file, run ```vim output.txt``` or ```vim errors.t```. Close the opened file by clicking ```esc```, then ```:q``` and finally ```enter```.
+
+If you run regular jobs, run first these three commands (to activate Python 3 and tensorflow):
+```module purge```
+```module load python-env/3.5.3 cuda/9.0 cudnn/7.0-cuda9```
+```export PYTHONPATH=$USERAPPL/tensorflow.1.11.0-py35/lib/python3.5/site-packages```
+
+and then run ```python filename.py```.
 
 **Git push is not working atm!** So to change something, commit on your own machine and then pull to the server.
 
