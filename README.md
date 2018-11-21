@@ -19,9 +19,12 @@ Use the ```$WRKDIR``` folder. The git repository is located there.
 If you run **heavy jobs**, define the filename in ```run.sh``` (now generator_test.py defined there) and run ```sbatch run.sh``` (this activates also Python 3 and tensorflow). Outputs are saved to ```output.txt``` file and errors to ```errors.t``` file. To investigate output/error file, run ```vim output.txt``` or ```vim errors.t```. Close the opened file by clicking ```esc```, then ```:q``` and finally ```enter```.
 
 If you run regular jobs, run first these three commands (to activate Python 3 and tensorflow):
-```module purge```
-```module load python-env/3.5.3 cuda/9.0 cudnn/7.0-cuda9```
-```export PYTHONPATH=$USERAPPL/tensorflow.1.11.0-py35/lib/python3.5/site-packages```
+```module purge```  
+```module load python-env/3.5.3 cuda/9.0 cudnn/7.0-cuda9```  
+```export PYTHONPATH=$USERAPPL/tensorflow.1.11.0-py35/lib/python3.5/site-packages```  
+
+UPDATE: These commands are now in server_setup.sh script in the working directory, so you can just run  
+```./server_setup.sh```
 
 and then run ```python filename.py```.
 
