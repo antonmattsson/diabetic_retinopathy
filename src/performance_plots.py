@@ -81,14 +81,14 @@ def finalize_standardplot(fig, ax1, ax2):
     fig.tight_layout()
     plt.subplots_adjust(top=0.9)
 
-def plot_history(history, title):
+def plot_history(history, title, fname):
     fig, ax1, ax2 = prepare_standardplot(title, 'epoch')
     ax1.plot(history.history['loss'], label = "training")
     ax1.plot(history.history['val_loss'], label = "validation")
     ax2.plot(history.history['acc'], label = "training")
     ax2.plot(history.history['val_acc'], label = "validation")
     finalize_standardplot(fig, ax1, ax2)
-    return fig
+    plt.savefig(fname)
 
 # For testing
 if __name__ == "__main__":

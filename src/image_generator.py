@@ -1,6 +1,7 @@
 import numpy as np
 from skimage.io import imread
 from skimage.transform import resize
+from sklearn.feature_extraction.image import extract_patches_2d
 from keras.utils import Sequence, to_categorical
 
 
@@ -33,3 +34,19 @@ class ImageGenerator(Sequence):
 
         return np.array([self._read_image(file_name) for file_name in batch_x]),\
             to_categorical(np.array(batch_y), num_classes=5)
+
+
+class PatchGenerator(ImageGenerator):
+
+    def __init__(self, image_filenames, labels, batch_size, patch_shape, n_patches):
+        self.image_filenames, self.labels = image_filenames, labels
+        self.batch_size = batch_size
+        self.patch_shape, self.n_patches = patch_shape, n_patches
+
+    def _read_image(self, filename):
+        image = imread(filename)
+        # Normalize pixel values between 0 and 1
+        image = image / 255
+        patches = extract_patches_2d(image, patch_size=self.patch_shape,
+                                     max_patches=self.n_patches, random_state=38)
+        return patches

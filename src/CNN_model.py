@@ -7,7 +7,11 @@
 import numpy as np
 from image_generator import *
 from numpy.core.defchararray import add, replace
+<<<<<<< HEAD
 from keras.layers import Flatten, Dense, ZeroPadding2D, Conv2D, Activation, MaxPooling2D, Dropout
+=======
+from keras.layers import Flatten, Dense, Conv2D, Activation, MaxPooling2D, Dropout
+>>>>>>> 33a6864cb7cc4686e012261da07e22c169f858d8
 from keras.models import Sequential
 
           
