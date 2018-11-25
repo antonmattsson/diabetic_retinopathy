@@ -7,7 +7,7 @@ from keras.models import Sequential
 # Set the number of training samples
 n_train = 60
 # Read filenames from a text file listing all the images
-filenames = np.genfromtxt('../data/train_list.txt', dtype=str)[:n_train]
+filenames = np.genfromtxt('../data/train_filenames.txt', dtype=str)[:n_train]
 # Add path of the data folder to the files
 filepaths = add(np.full(shape=(filenames.shape), fill_value='../data/train/'), filenames)
 
@@ -35,5 +35,5 @@ model.compile(optimizer='adam', loss='categorical_crossentropy')
 
 model.fit_generator(generator=train_gen,
                     steps_per_epoch=(n_train // batch_size),
-                    epochs=1,
+                    epochs=2,
                     verbose=1)
