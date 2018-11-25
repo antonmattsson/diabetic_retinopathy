@@ -7,7 +7,7 @@
 import numpy as np
 from image_generator import *
 from numpy.core.defchararray import add, replace
-from keras.layers import Flatten, Dense, ZeroPadding2D, Conv2D, Activation, MaxPooling2D, Dropout, BatchNormalization
+from keras.layers import Flatten, Dense, ZeroPadding2D, Conv2D, Activation, MaxPooling2D, Dropout
 from keras.models import Sequential
 
           
@@ -19,7 +19,7 @@ from keras.models import Sequential
 # Set the number of training samples
 n_train = 60
 # Read filenames from a text file listing all the images
-filenames = np.genfromtxt('../data/train_list.txt', dtype=str)[:n_train]
+filenames = np.genfromtxt('../data/train_filenames.txt', dtype=str)[:n_train]
 # Add path of the data folder to the files
 filepaths = add(np.full(shape=(filenames.shape), fill_value='../data/train/'), filenames)
 
@@ -66,10 +66,9 @@ model.add(Dense(5, activation="softmax"))
 
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-model.fit_generator(generator=train_gen,
+history = model.fit_generator(generator=train_gen,
                     steps_per_epoch=(n_train // batch_size),
-                    epochs=20, verbose=1)
+                    epochs=20, verbose=2)
 
-#print model summary
-model.summary()
+
 
