@@ -7,7 +7,7 @@
 import numpy as np
 from image_generator import *
 from numpy.core.defchararray import add, replace
-from keras.layers import Flatten, Dense, ZeroPadding2D, Conv2D, Activation, MaxPooling2D, Dropout, BatchNormalization
+from keras.layers import Flatten, Dense, Conv2D, Activation, MaxPooling2D, Dropout
 from keras.models import Sequential
 
           
