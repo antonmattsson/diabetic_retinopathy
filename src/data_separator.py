@@ -14,10 +14,10 @@ all_labels = np.genfromtxt('../data/trainLabels.csv', skip_header=1, dtype=str, 
 
 # Plot the distribution of classes in the original data
 classes, counts = np.unique(all_labels[:,1], return_counts=True)
-plt.figure()
+plt.figure(figsize=(8,6))
 plt.bar(classes, counts)
-plt.title('Distribution of retinopathy severity classes')
-plt.xlabel('Class')
+plt.title('Distribution of retinopathy severity grades in the complete data set')
+plt.xlabel('Grade')
 plt.ylabel('Count')
 plt.savefig('../results/class_distribution.png')
 
@@ -35,8 +35,8 @@ train_labels = all_labels[3000:, :]
 classes, counts = np.unique(test_labels[:,1], return_counts=True)
 plt.figure()
 plt.bar(classes, counts)
-plt.title('Distribution of retinopathy severity classes in test data')
-plt.xlabel('Class')
+plt.title('Distribution of retinopathy severity grades in test data')
+plt.xlabel('Grade')
 plt.ylabel('Count')
 plt.savefig('../results/class_distribution_test.png')
 
@@ -47,8 +47,8 @@ np.savetxt(fname='../results/class_distribution_test.csv', X=class_dist, delimit
 classes, counts = np.unique(train_labels[:,1], return_counts=True)
 plt.figure()
 plt.bar(classes, counts)
-plt.title('Distribution of retinopathy severity classes in train data')
-plt.xlabel('Class')
+plt.title('Distribution of retinopathy severity grades in train data')
+plt.xlabel('Grade')
 plt.ylabel('Count')
 plt.savefig('../results/class_distribution_train.png')
 
