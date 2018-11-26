@@ -1,46 +1,18 @@
-
-# coding: utf-8
-
-# In[2]:
-
-
 import numpy as np
 from image_generator import *
-from numpy.core.defchararray import add, replace
-<<<<<<< HEAD
 from keras.layers import Flatten, Dense, ZeroPadding2D, Conv2D, Activation, MaxPooling2D, Dropout
-=======
 from keras.layers import Flatten, Dense, Conv2D, Activation, MaxPooling2D, Dropout
->>>>>>> 33a6864cb7cc4686e012261da07e22c169f858d8
 from keras.models import Sequential
-
-          
-
-
-# In[3]:
-
+from keras.callbacks import EarlyStopping
+from performance_plots import *          
+import pickle
 
 # Set the number of training samples
-n_train = 60
-# Read filenames from a text file listing all the images
-filenames = np.genfromtxt('../data/train_filenames.txt', dtype=str)[:n_train]
-# Add path of the data folder to the files
-filepaths = add(np.full(shape=(filenames.shape), fill_value='../data/train/'), filenames)
-
-# Remove .jpeg from the end of file names to search from the labels
-train_samples = replace(filenames, ".jpeg", "")
-train_labels = np.genfromtxt('../data/trainLabels.csv', skip_header=1, dtype=str, delimiter=',')
-# Choose labels for the chosen training images only
-mask = np.isin(train_labels[:,0],train_samples)
-sample_labels = train_labels[mask, 1]
-
-# Set batch size, image shape and patch size
-batch_size = 12
+n_total = 64
+batch_size = 32
 img_shape = (512, 512)
 
-# Create an instance of the image generator
-train_gen = ImageGenerator(filepaths, sample_labels, batch_size, img_shape)
-
+train_gen, test_gen = get_generators(n_total=n_total, batch_size=batch_size, image_shape=img_shape)
 
 #add convolutional network model
 
@@ -68,11 +40,23 @@ model.add(Dense(5, activation="softmax"))
 
 #compile and fit model
 
+earlystop = EarlyStopping(monitor='val_loss', min_delta=0.0001, patience=15, \
+                          verbose=0, mode='auto')
+callbacks_list = [earlystop]
+
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-history = model.fit_generator(generator=train_gen,
-                    steps_per_epoch=(n_train // batch_size),
-                    epochs=20, verbose=2)
+history = model.fit_generator(generator=train_gen, validation_data=test_gen,
+                    steps_per_epoch=len(train_gen),
+                    epochs=10, verbose=2, callbacks=callbacks_list)
+
+
+model.save('model.h5')
+
+with open('history','wb') as file_pi:
+    pickle.dump(history.history, file_pi)
+
+plot_history(history,'Loss and accuracy', '../results/CNN_trial.png')
 
 
 
