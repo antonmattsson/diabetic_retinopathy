@@ -56,8 +56,8 @@ for i in range(n_epochs):
                         steps_per_epoch=len(train_gen),
                         epochs=1, verbose=2, callbacks=callbacks_list)
     history_dict = add_to_history(history_dict, history)
-    model.save('model.h5')
-    with open('history', 'wb') as file_pi:
+    model.save('model_loop.h5')
+    with open('history_loop', 'wb') as file_pi:
         pickle.dump(history_dict, file_pi)
 
-    plot_history(history_dict,'Loss and accuracy', '../results/CNN_trial.png')
+    plot_history(history_dict,'Loss and accuracy', '../results/CNN_loop.png')
