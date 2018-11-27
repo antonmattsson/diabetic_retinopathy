@@ -52,7 +52,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 n_epochs = 20
 history_dict = None
 for i in range(n_epochs):
-    print("\nEpoch " + str(i) + "/" + str(n_epochs))
+    print("\nEpoch " + str(i+1) + "/" + str(n_epochs))
     history = model.fit_generator(generator=train_gen, validation_data=test_gen,
                         steps_per_epoch=len(train_gen),
                         epochs=1, verbose=2, callbacks=callbacks_list)

@@ -8,7 +8,7 @@ from performance_plots import *
 import pickle
 
 # Set the number of training samples
-n_total = 64
+n_total = 2400
 batch_size = 32
 img_shape = (512, 512)
 
@@ -46,17 +46,17 @@ callbacks_list = [earlystop]
 
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-history = model.fit_generator(generator=train_gen, validation_data=test_gen,
-                    steps_per_epoch=len(train_gen),
-                    epochs=10, verbose=2, callbacks=callbacks_list)
-
-
-model.save('model.h5')
-
-with open('history','wb') as file_pi:
-    pickle.dump(history.history, file_pi)
-
-plot_history(history,'Loss and accuracy', '../results/CNN_trial.png')
+n_epochs = 20
+history_dict = None
+for i in range(n_epochs):
+    print("\nEpoch " + str(i+1) + "/" + str(n_epochs))
+    history = model.fit_generator(generator=train_gen, validation_data=test_gen,
+                        steps_per_epoch=len(train_gen),
+                        epochs=1, verbose=2, callbacks=callbacks_list)
+    history_dict = add_to_history(history_dict, history)
+    model.save('model_downsampled.h5')
+    with open('history_downsampled', 'wb') as file_pi:
+        pickle.dump(history_dict, file_pi)
 
 
 
