@@ -52,6 +52,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 n_epochs = 20
 history_dict = None
 for i in range(n_epochs):
+    print("\nEpoch " + str(i) + "/" + str(n_epochs))
     history = model.fit_generator(generator=train_gen, validation_data=test_gen,
                         steps_per_epoch=len(train_gen),
                         epochs=1, verbose=2, callbacks=callbacks_list)
@@ -59,5 +60,3 @@ for i in range(n_epochs):
     model.save('model_loop.h5')
     with open('history_loop', 'wb') as file_pi:
         pickle.dump(history_dict, file_pi)
-
-    plot_history(history_dict,'Loss and accuracy', '../results/CNN_loop.png')
