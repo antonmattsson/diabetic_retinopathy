@@ -93,8 +93,11 @@ def plot_history(history, title, fname):
 def add_to_history(history_dict, history):
     dict_tmp = history.history
     # For all the fields, join the lists together
-    for k in history_dict.keys():
-        history_dict[k] = history_dict[k] + dict_tmp[k]
+    if history_dict is None:
+        history_dict = dict_tmp
+    else:
+        for k in history_dict.keys():
+            history_dict[k] = history_dict[k] + dict_tmp[k]
     return history_dict
 
 # For testing
