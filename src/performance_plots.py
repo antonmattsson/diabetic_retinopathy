@@ -83,12 +83,19 @@ def finalize_standardplot(fig, ax1, ax2):
 
 def plot_history(history, title, fname):
     fig, ax1, ax2 = prepare_standardplot(title, 'epoch')
-    ax1.plot(history.history['loss'], label = "training")
-    ax1.plot(history.history['val_loss'], label = "validation")
-    ax2.plot(history.history['acc'], label = "training")
-    ax2.plot(history.history['val_acc'], label = "validation")
+    ax1.plot(history['loss'], label = "training")
+    ax1.plot(history['val_loss'], label = "validation")
+    ax2.plot(history['acc'], label = "training")
+    ax2.plot(history['val_acc'], label = "validation")
     finalize_standardplot(fig, ax1, ax2)
     plt.savefig(fname)
+
+def add_to_history(history_dict, history):
+    dict_tmp = history.history
+    # For all the fields, join the lists together
+    for k in history_dict.keys():
+        history_dict[k] = history_dict[k] + dict_tmp[k]
+    return history_dict
 
 # For testing
 if __name__ == "__main__":

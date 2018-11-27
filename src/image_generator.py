@@ -54,6 +54,17 @@ class PatchGenerator(ImageGenerator):
         return patches
 
 def get_generators(n_total, batch_size, image_shape, zeros_left=5000):
+    '''
+    Construct generators for training and validation data
+    Zero grade images are downsampled
+    :param n_total: number of total images to use (training plus validation)
+    :param batch_size: batch size used in training
+    :param image_shape: image size used in training
+    :param zeros_left: how many images of grade zero should be left in the pool
+                       use a negative value to keep all the zeros
+    :return: train_gen: generator of training data
+             test_gen: generator of validation data
+    '''
     # Set the number of training samples
     n_train = int(n_total * 0.8)
     n_test = int(n_total * 0.2)
@@ -74,9 +85,12 @@ def get_generators(n_total, batch_size, image_shape, zeros_left=5000):
     # Arrange by a stable sort (mergesort)
     trainable_labels = trainable_labels[trainable_labels[:,1].argsort(kind='mergesort')]
     # Remove extra zeros
-    _, counts = np.unique(trainable_labels[:,1], return_counts=True)
-    n_zeros = counts[0]
-    downsampled_labels = trainable_labels[(n_zeros-zeros_left):, :]
+    if zeros_left > 0:
+        _, counts = np.unique(trainable_labels[:,1], return_counts=True)
+        n_zeros = counts[0]
+        downsampled_labels = trainable_labels[(n_zeros-zeros_left):, :]
+    else:
+        downsampled_labels = trainable_labels
 
     # Randomize and split to test and train
     np.random.shuffle(downsampled_labels)
