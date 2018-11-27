@@ -10,9 +10,11 @@ import pickle
 # Set the number of training samples
 n_total = 2400
 batch_size = 32
-img_shape = (512, 512)
+img_shape = (256, 256)
 
-train_gen, test_gen = get_generators(n_total=n_total, batch_size=batch_size, image_shape=img_shape)
+# Construc generators for the training and validation data
+# Downsample zero grade images, load from prepocessed numpy arrays
+train_gen, test_gen = get_generators(n_total=n_total, batch_size=batch_size)
 
 #add convolutional network model
 
@@ -48,6 +50,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 
 n_epochs = 20
 history_dict = None
+# Save model and history dict between every epoch
 for i in range(n_epochs):
     print("\nEpoch " + str(i+1) + "/" + str(n_epochs))
     history = model.fit_generator(generator=train_gen, validation_data=test_gen,
