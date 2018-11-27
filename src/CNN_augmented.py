@@ -71,8 +71,8 @@ for i in range(n_epochs):
                         steps_per_epoch=50,
                         epochs=1, verbose=2, callbacks=callbacks_list)
     history_dict = add_to_history(history_dict, history)
-    model.save('model_downsampled.h5')
-    with open('history_downsampled', 'wb') as file_pi:
+    model.save('model_augmented.h5')
+    with open('history_augmented', 'wb') as file_pi:
         pickle.dump(history_dict, file_pi)
 
 
