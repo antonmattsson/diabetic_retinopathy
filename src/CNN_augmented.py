@@ -14,8 +14,6 @@ img_shape = (256, 256)
 # Set data augmentation protocol
 datagen = ImageDataGenerator(
         rotation_range=40,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
         shear_range=0.2,
         zoom_range=0.2,
         horizontal_flip=True,
@@ -68,7 +66,7 @@ history_dict = None
 for i in range(n_epochs):
     print("\nEpoch " + str(i+1) + "/" + str(n_epochs))
     history = model.fit_generator(generator=train_gen, validation_data=test_gen,
-                        steps_per_epoch=50,
+                        steps_per_epoch=60, validation_steps=10,
                         epochs=1, verbose=2, callbacks=callbacks_list)
     history_dict = add_to_history(history_dict, history)
     model.save('model_augmented.h5')
