@@ -71,6 +71,6 @@ print("\nTest data:")
 for k in range(n_test):
     if k % 500 == 0:
         print("Iteration: " + str(k+1) + "/" + str(n_test))
-    change_exposure(fname=test_labels[i, 0],
-                    label=test_labels[i, 1],
+    change_exposure(fname=test_labels[k, 0],
+                    label=test_labels[k, 1],
                     folder='../data/augmentation_test/')

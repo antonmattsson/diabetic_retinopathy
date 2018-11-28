@@ -25,7 +25,7 @@ train_gen = datagen.flow_from_directory('../data/augmentation_train',
                                         target_size=(256, 256),
                                         batch_size=batch_size)
 
-test_gen = datagen.flow_from_directory('../data/augmentation_test',
+test_gen = datagen.flow_from_directory('../data/augmentation_validation',
                                         target_size=(256, 256),
                                         batch_size=batch_size)
 
