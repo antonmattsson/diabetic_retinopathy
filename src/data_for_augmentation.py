@@ -27,6 +27,12 @@ np.random.seed(1234)
 np.random.shuffle(trainable_labels)
 # Arrange by a stable sort (mergesort)
 trainable_labels = np.copy(trainable_labels[trainable_labels[:,1].argsort(kind='mergesort')])
+
+# Remove a part for validation
+n_validation = 3000
+validation_labels = np.copy(trainable_labels[:n_validation, :])
+trainable_labels = np.copy(trainable_labels[n_validation:, :])
+
 # Remove extra zeros
 zeros_left = 5000
 if zeros_left > 0:
@@ -40,12 +46,6 @@ else:
 n_train = downsampled_labels.shape[0]
 np.random.shuffle(downsampled_labels)
 train_labels = np.copy(downsampled_labels)
-
-# Exclude training samples from the original data and use the rest for testing
-np.random.shuffle(trainable_labels)
-exclusion = np.isin(trainable_labels[:, 0], train_labels[:, 0], invert=True)
-validation_labels = np.copy(trainable_labels[exclusion, :])
-n_validation = validation_labels.shape[0]
 
 n_test = test_labels.shape[0]
 print(n_train, n_validation, n_test)
@@ -67,10 +67,10 @@ for j in range(n_validation):
                     label=validation_labels[j, 1],
                     folder='../data/augmentation_validation/')
 
-print("\nTest data:")
-for k in range(n_test):
-    if k % 500 == 0:
-        print("Iteration: " + str(k+1) + "/" + str(n_test))
-    change_exposure(fname=test_labels[k, 0],
-                    label=test_labels[k, 1],
-                    folder='../data/augmentation_test/')
+#print("\nTest data:")
+#for k in range(n_test):
+#    if k % 500 == 0:
+#        print("Iteration: " + str(k+1) + "/" + str(n_test))
+#    change_exposure(fname=test_labels[k, 0],
+#                    label=test_labels[k, 1],
+#                    folder='../data/augmentation_test/')
