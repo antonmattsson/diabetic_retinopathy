@@ -5,6 +5,7 @@ from keras.layers import Flatten, Dense, Conv2D, Activation, MaxPooling2D, Dropo
 from keras.models import Sequential
 from keras.callbacks import EarlyStopping
 import pickle
+from performance_plots import *
 
 # Set the number of training samples
 n_total = 2400
