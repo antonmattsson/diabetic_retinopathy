@@ -35,20 +35,18 @@ if zeros_left > 0:
 else:
     downsampled_labels = np.copy(trainable_labels)
 
-n_total = downsampled_labels.shape[0]
-n_train = int(np.ceil(n_total * 0.8))
-n_test = int(np.floor(n_total * 0.2))
-
-print((n_total, n_train, n_test))
-
+# Use downsampled set for training
+n_train = downsampled_labels.shape[0]
 np.random.shuffle(downsampled_labels)
-train_labels = downsampled_labels[:n_train, :]
-#test_labels = downsampled_labels[n_train:(n_train + n_test)]
-# Exclude training samples from the original data and choose test data among them
+train_labels = np.copy(downsampled_labels)
+
+# Exclude training samples from the original data and use the rest for testing
 np.random.shuffle(trainable_labels)
 exclusion = np.isin(trainable_labels[:, 0], train_labels[:, 0], invert=True)
-valid_labels = np.copy(trainable_labels[exclusion, :])
-test_labels = np.copy(valid_labels[:n_test, :])
+validation_labels = np.copy(trainable_labels[exclusion, :])
+n_validation = validation_labels.shape[0]
+
+print(n_train, n_validation)
 
 # Save images into subfolders by class
 for i in range(n_train):
@@ -56,7 +54,7 @@ for i in range(n_train):
                     label=train_labels[i, 1],
                     folder='../data/augmentation_train/')
 
-for j in range(n_test):
-    change_exposure(fname=test_labels[j, 0],
-                    label=test_labels[j, 1],
+for j in range(n_validation):
+    change_exposure(fname=validation_labels[j, 0],
+                    label=validation_labels[j, 1],
                     folder='../data/augmentation_validation/')
