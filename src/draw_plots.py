@@ -20,7 +20,7 @@ test_gen = rawgen.flow_from_directory('../data/augmentation_validation',
                                       batch_size=batch_size,
                                       shuffle=False)
 
-model = load_model('model_downsampled.h5')
+model = load_model('model_augmented.h5')
 
 y_pred = model.predict_generator(test_gen, steps=1000)
 y_pred = np.argmax(y_pred, axis=1)
