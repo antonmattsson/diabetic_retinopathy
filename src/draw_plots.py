@@ -26,5 +26,5 @@ y_pred = model.predict_generator(test_gen, steps=100)
 y_pred = np.argmax(y_pred, axis=1)
 print(y_pred.shape)
 
-y_true = test_gen.labels.astype(int)
+y_true = test_gen.classes
 save_confusion_matrix(y_true, y_pred, result_path='../results/CNN_augmented_')
