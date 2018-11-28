@@ -19,6 +19,7 @@ full_labels = np.genfromtxt('../data/trainLabels.csv', skip_header=1, dtype=str,
 full_samples = replace(full_filenames, ".jpeg", "")
 full_mask = np.isin(full_labels[:, 0], full_samples)
 trainable_labels = np.copy(full_labels[full_mask, :])
+test_labels = np.copy(full_labels[np.invert(full_mask), :])
 
 # Downsample the zero grade, keeping only the first 5000
 # Randomize order
@@ -46,15 +47,30 @@ exclusion = np.isin(trainable_labels[:, 0], train_labels[:, 0], invert=True)
 validation_labels = np.copy(trainable_labels[exclusion, :])
 n_validation = validation_labels.shape[0]
 
-print(n_train, n_validation)
+n_test = test_labels.shape[0]
+print(n_train, n_validation, n_test)
 
 # Save images into subfolders by class
+print("\nTraining data:")
 for i in range(n_train):
+    if i % 500 == 0:
+        print("Iteration: " + str(i+1) + "/" + str(n_train))
     change_exposure(fname=train_labels[i, 0],
                     label=train_labels[i, 1],
                     folder='../data/augmentation_train/')
 
+print("\nValidation data:")
 for j in range(n_validation):
+    if j % 500 == 0:
+        print("Iteration: " + str(j+1) + "/" + str(n_validation))
     change_exposure(fname=validation_labels[j, 0],
                     label=validation_labels[j, 1],
                     folder='../data/augmentation_validation/')
+
+print("\nTest data:")
+for k in range(n_test):
+    if k % 500 == 0:
+        print("Iteration: " + str(k+1) + "/" + str(n_test))
+    change_exposure(fname=test_labels[i, 0],
+                    label=test_labels[i, 1],
+                    folder='../data/augmentation_test/')
