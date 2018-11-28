@@ -29,7 +29,7 @@ np.random.shuffle(trainable_labels)
 trainable_labels = np.copy(trainable_labels[trainable_labels[:,1].argsort(kind='mergesort')])
 
 # Remove a part for validation
-n_validation = 3000
+n_validation = 2400
 validation_labels = np.copy(trainable_labels[:n_validation, :])
 trainable_labels = np.copy(trainable_labels[n_validation:, :])
 

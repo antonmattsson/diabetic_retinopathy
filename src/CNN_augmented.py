@@ -8,7 +8,8 @@ import pickle
 from performance_plots import *
 
 # Set the number of training samples
-n_total = 2400
+train_steps = 300
+validation_steps = 75 # maximum
 batch_size = 32
 img_shape = (256, 256)
 
@@ -67,7 +68,7 @@ history_dict = None
 for i in range(n_epochs):
     print("\nEpoch " + str(i+1) + "/" + str(n_epochs))
     history = model.fit_generator(generator=train_gen, validation_data=test_gen,
-                        steps_per_epoch=60, validation_steps=10,
+                        steps_per_epoch=train_steps, validation_steps=validation_steps,
                         epochs=1, verbose=2, callbacks=callbacks_list)
     history_dict = add_to_history(history_dict, history)
     model.save('model_augmented.h5')
