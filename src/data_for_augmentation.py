@@ -8,7 +8,6 @@ def change_exposure(fname, label, folder):
     hsv = color.rgb2hsv(img)
     hsv[:, :, 2] = exposure.equalize_hist(hsv[:, :, 2])
     img = color.hsv2rgb(hsv)
-    img = img / 255
     imsave(folder + label + '/' + fname + '.png', img)
 
 full_filenames = np.genfromtxt('../data/train_filenames.txt', dtype=str)
@@ -67,10 +66,10 @@ for j in range(n_validation):
                     label=validation_labels[j, 1],
                     folder='../data/augmentation_validation/')
 
-#print("\nTest data:")
-#for k in range(n_test):
-#    if k % 500 == 0:
-#        print("Iteration: " + str(k+1) + "/" + str(n_test))
-#    change_exposure(fname=test_labels[k, 0],
-#                    label=test_labels[k, 1],
-#                    folder='../data/augmentation_test/')
+print("\nTest data:")
+for k in range(n_test):
+    if k % 500 == 0:
+        print("Iteration: " + str(k+1) + "/" + str(n_test))
+    change_exposure(fname=test_labels[k, 0],
+                    label=test_labels[k, 1],
+                    folder='../data/augmentation_test/')
