@@ -9,13 +9,9 @@ def change_exposure(fname, label, folder):
     hsv[:, :, 2] = exposure.equalize_hist(hsv[:, :, 2])
     img = color.hsv2rgb(hsv)
     img = img / 255
-    imsave(folder + label + '/' + fname + '.png', img, plugin='png')
+    imsave(folder + label + '/' + fname + '.png', img)
 
 full_filenames = np.genfromtxt('../data/train_filenames.txt', dtype=str)
-n_total = len(full_filenames)
-# Set the number of training samples
-n_train = int(np.ceil(n_total * 0.8))
-n_test = int(np.floor(n_total * 0.2))
 
 # Read the labels file
 full_labels = np.genfromtxt('../data/trainLabels.csv', skip_header=1, dtype=str, delimiter=',')
@@ -39,6 +35,11 @@ if zeros_left > 0:
 else:
     downsampled_labels = np.copy(trainable_labels)
 
+n_total = downsampled_labels.shape[0]
+n_train = int(np.ceil(n_total * 0.8))
+n_test = int(np.floor(n_total * 0.2))
+
+print((n_total, n_train, n_test))
 
 np.random.shuffle(downsampled_labels)
 train_labels = downsampled_labels[:n_train, :]
@@ -51,11 +52,11 @@ test_labels = np.copy(valid_labels[:n_test, :])
 
 # Save images into subfolders by class
 for i in range(n_train):
-    change_exposure(fname=downsampled_labels[i, 0],
-                    label=downsampled_labels[i, 1],
+    change_exposure(fname=train_labels[i, 0],
+                    label=train_labels[i, 1],
                     folder='../data/augmentation_train/')
 
 for j in range(n_test):
-    change_exposure(fname=downsampled_labels[i, 0],
-                    label=downsampled_labels[i, 1],
+    change_exposure(fname=test_labels[j, 0],
+                    label=test_labels[j, 1],
                     folder='../data/augmentation_validation/')
