@@ -11,7 +11,7 @@ with open('history_augmented', 'rb') as file_pi:
 plot_history(hist_dict, title='testing', fname='../results/CNN_augmented.png')
 
 # plot confusion matrix
-batch_size = 30
+batch_size = 32
 img_shape = (256, 256)
 
 rawgen = ImageDataGenerator()
@@ -22,7 +22,7 @@ test_gen = rawgen.flow_from_directory('../data/augmentation_validation',
 
 model = load_model('model_augmented.h5')
 
-y_pred = model.predict_generator(test_gen, steps=100)
+y_pred = model.predict_generator(test_gen, steps=75)
 y_pred = np.argmax(y_pred, axis=1)
 print(y_pred.shape)
 
