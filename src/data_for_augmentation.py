@@ -24,13 +24,14 @@ test_labels = np.copy(full_labels[np.invert(full_mask), :])
 # Randomize order
 np.random.seed(1234)
 np.random.shuffle(trainable_labels)
-# Arrange by a stable sort (mergesort)
-trainable_labels = np.copy(trainable_labels[trainable_labels[:,1].argsort(kind='mergesort')])
 
 # Remove a part for validation
 n_validation = 2400
 validation_labels = np.copy(trainable_labels[:n_validation, :])
 trainable_labels = np.copy(trainable_labels[n_validation:, :])
+
+# Arrange by a stable sort (mergesort)
+trainable_labels = np.copy(trainable_labels[trainable_labels[:,1].argsort(kind='mergesort')])
 
 # Remove extra zeros
 zeros_left = 5000
