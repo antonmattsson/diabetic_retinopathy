@@ -4,6 +4,7 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.layers import Flatten, Dense, Conv2D, Activation, MaxPooling2D, Dropout
 from keras.models import Sequential, load_model
 from keras.callbacks import EarlyStopping
+from keras.optimizers import Adam
 import pickle
 from performance_plots import *
 from pathlib import Path
@@ -64,6 +65,10 @@ else: # Start from scratch
 
     model.add(Dropout(0.5))
     model.add(Dense(5, activation="softmax"))
+
+    learning_rate = 5e-4
+    decay = learning_rate/100
+    optimizer = Adam(lr=learning_rate, decay=decay)
 
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
