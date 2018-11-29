@@ -12,7 +12,7 @@ from pathlib import Path
 # Set the number of training samples
 train_steps = 400
 validation_steps = 75 # maximum
-batch_size = 32
+batch_size = 64
 img_shape = (256, 256)
 
 # Set data augmentation protocol
@@ -66,13 +66,13 @@ else: # Start from scratch
     model.add(Dropout(0.5))
     model.add(Dense(5, activation="softmax"))
 
-    learning_rate = 5e-4
-    decay = learning_rate/100
-    optimizer = Adam(lr=learning_rate, decay=decay)
+learning_rate = 5e-4
+decay = 0
+optimizer = Adam(lr=learning_rate, decay=decay)
 
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-#compile and fit model
+#compile and fit modeldecay = learning_rate/100
 
 earlystop = EarlyStopping(monitor='val_loss', min_delta=0.0001, patience=15, \
                           verbose=0, mode='auto')
