@@ -10,15 +10,15 @@ from performance_plots import *
 from pathlib import Path
 
 # Set the number of training samples
-train_steps = 400
+train_steps = 150
 validation_steps = 75 # maximum
-batch_size = 64
+batch_size = 128
 img_shape = (256, 256)
 
 # Set data augmentation protocol
 datagen = ImageDataGenerator(
         rotation_range=40,
-        shear_range=0.2,
+        #shear_range=0.2,
         zoom_range=0.2,
         rescale=1./255,
         horizontal_flip=True,
@@ -36,7 +36,7 @@ test_gen = test_datagen.flow_from_directory('../data/augmentation_validation',
                                         batch_size=batch_size)
 
 # Check if a pretrained model exists
-model_path = "model_augmented.h5"
+model_path = "model_augmented_fast_copy.h5"
 model_file = Path(model_path)
 if model_file.is_file():
     model = load_model(model_path)
@@ -66,11 +66,11 @@ else: # Start from scratch
     model.add(Dropout(0.5))
     model.add(Dense(5, activation="softmax"))
 
-learning_rate = 5e-4
+learning_rate = 1e-3
 decay = 0
 optimizer = Adam(lr=learning_rate, decay=decay)
 
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
 #compile and fit modeldecay = learning_rate/100
 
@@ -80,16 +80,17 @@ callbacks_list = [earlystop]
 
 n_epochs = 50
 history_dict = None
+max_acc	= 0.75
 # Save model and history dict between every epoch
 for i in range(n_epochs):
-    print("\nEpoch " + str(i+1) + "/" + str(n_epochs))
+    print("\nRound " + str(i+1) + "/" + str(n_epochs))
     history = model.fit_generator(generator=train_gen, validation_data=test_gen,
                         steps_per_epoch=train_steps, validation_steps=validation_steps,
-                        epochs=1, verbose=2, callbacks=callbacks_list)
+                        epochs=5, verbose=2, callbacks=callbacks_list)
     history_dict = add_to_history(history_dict, history)
-    model.save('model_augmented.h5')
-    with open('history_augmented', 'wb') as file_pi:
+    model.save('model_augmented_fast_copy.h5')
+    if history_dict['val_acc'][-1] > max_acc:
+       	model.save('model_augmented_fast_good.h5')
+       	max_acc	= history_dict['val_acc'][-1]
+    with open('history_augmented_fast_copy', 'wb') as file_pi:
         pickle.dump(history_dict, file_pi)
-
-
-
