@@ -8,6 +8,7 @@ import numpy as np
 from PIL import Image, ImageFilter
 
 import data
+#import ../data/train
 
 N_PROC = 2
 
