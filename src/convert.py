@@ -1,3 +1,6 @@
+# author: Team o_O in the Kaggle Diabetic Retinopathy Detection Challenge
+# https://github.com/sveitser/kaggle_diabetic
+
 """Resize and crop images to square, save as tiff."""
 from __future__ import division, print_function
 import os
